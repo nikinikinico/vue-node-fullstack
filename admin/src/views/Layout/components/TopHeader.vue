@@ -7,7 +7,7 @@
       <span style="margin-left: 10px">XXXX管理系统</span>
     </div>
     <div class="right">
-      <span>欢迎admin回来</span>
+      <span>欢迎{{ store.userInfo?.username }}回来</span>
       <el-dropdown>
         <span class="el-dropdown-link">
           <el-icon :size="30" color="white">
@@ -27,12 +27,15 @@
 <script setup lang="ts">
 import { Menu, User } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores'
+const store = useUserStore()
 const router = useRouter()
 const handleCenter = () => {
   router.push('/center')
 }
 const handleLogut = () => {
   localStorage.removeItem('token')
+  store.clearUserInfo()
   router.push('/login')
 }
 const emits = defineEmits<{

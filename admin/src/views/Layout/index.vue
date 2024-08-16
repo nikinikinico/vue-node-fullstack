@@ -17,4 +17,9 @@ import { ref } from 'vue'
 const collapse = ref(false)
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.el-main {
+  overflow: auto;
+  height: calc(100v - 60px);
+}
+</style>

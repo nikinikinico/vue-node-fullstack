@@ -35,6 +35,9 @@
 import { reactive, ref } from 'vue'
 import { type FormRules, type FormInstance } from 'element-plus'
 import { useRouter } from 'vue-router'
+import { loginApi } from '@/api/user'
+import { useUserStore } from '@/stores'
+const store = useUserStore()
 const options = {
   background: {
     color: {
@@ -124,7 +127,8 @@ const loginRules = reactive<FormRules>({
 const router = useRouter()
 const submitForm = async () => {
   await loginFormRef.value?.validate()
-  localStorage.setItem('token', 'my')
+  const res = await loginApi(loginForm.username, loginForm.password)
+  store.changeUserInfo(res.data)
   router.push('/index')
 }
 </script>
