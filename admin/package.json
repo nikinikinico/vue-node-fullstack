@@ -15,7 +15,10 @@
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
     "@tsparticles/vue3": "^3.0.1",
+    "@wangeditor/editor": "^5.1.23",
+    "@wangeditor/editor-for-vue": "^5.1.12",
     "axios": "^1.7.4",
+    "dayjs": "^1.11.13",
     "element-plus": "^2.8.0",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.1",

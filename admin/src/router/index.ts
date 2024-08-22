@@ -19,18 +19,19 @@ const routes: Array<RouteRecordRaw> = [
     component: Layout,
     meta: {
       requiresAuth: false
-    }
+    },
+    children: [
+      {
+        path: '/not-found',
+        component: () => import('@/views/NotFound/index.vue'),
+        meta: {
+          requiresAuth: false
+        }
+      }
+    ]
   },
   {
     path: '/:pathMatch(.*)*',
-    name: 'Notfound',
-    component: () => import('@/views/NotFound/index.vue'),
-    meta: {
-      requiresAuth: false
-    }
-  },
-  {
-    path: '/not-found',
     name: 'Notfound',
     component: () => import('@/views/NotFound/index.vue'),
     meta: {
@@ -42,7 +43,7 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes
 })
-//动态添加路由
+//动态添加所有路由
 routesDynamic.forEach((item) => {
   router.addRoute('layout', item)
 })

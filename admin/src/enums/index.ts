@@ -13,3 +13,12 @@ export enum Role {
   /**编辑 */
   Edit = 2
 }
+
+export enum NewsType {
+  /**最新动态 */
+  Latest = 1,
+  /**典型案例 */
+  Typical = 2,
+  /**通知公告 */
+  Notify = 3
+}

@@ -13,6 +13,7 @@ export const useUserStore = defineStore(
     }
     const clearUserInfo = () => {
       userInfo.value = { _id: '', username: '', role: 2 }
+      token.value = ''
     }
     const getUserInfo = async () => {
       const res = await getCurrentUser()
