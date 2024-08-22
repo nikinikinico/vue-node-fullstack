@@ -1,5 +1,5 @@
 export type UserInfo = {
-  _id: string
+  _id?: string
   username: string
   password?: string
   gender?: number //性别，0，1，2
@@ -9,10 +9,20 @@ export type UserInfo = {
 }
 export type UserForm = {
   username: string | undefined
-  gender: number | undefined
+  gender?: number | undefined
   introduction: string | undefined
-  avatar: string | undefined
-  file: File | null
+  avatar?: string | undefined
+  file?: File | null
   role?: Number
   [key: string]: any
+}
+/**
+ * 不带头像修改
+ */
+type EditUserForm = {
+  _id: string
+  username: string
+  password: string
+  role: Role
+  introduction: string
 }

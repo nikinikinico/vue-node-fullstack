@@ -54,12 +54,19 @@
 </template>
 
 <script setup lang="ts">
-import type { FormInstance, FormRules, UploadFile } from 'element-plus'
+import {
+  ElMessage,
+  type FormInstance,
+  type FormRules,
+  type UploadFile
+} from 'element-plus'
 import { computed, reactive, ref } from 'vue'
 import { Role } from '@/enums/index'
 import UploadAvatar from '@/components/UploadAvatar/index.vue'
 import { type UserForm } from '@/types/user'
 import { Gender } from '@/enums/index'
+import { userAdd } from '@/api/user'
+import { useRouter } from 'vue-router'
 const userFormRef = ref<FormInstance>()
 const userForm = ref<UserForm>({
   username: '',
@@ -105,9 +112,16 @@ const handleChange = (uploadFile: UploadFile) => {
     userForm.value.file = uploadFile.raw
   }
 }
+const router = useRouter()
 const submitForm = async () => {
   await userFormRef.value?.validate()
-  console.log(userForm.value)
+  const params = new FormData()
+  for (let i in userForm.value) {
+    params.append(i, userForm.value[i])
+  }
+  await userAdd(params)
+  ElMessage.success('添加成功')
+  router.push('/user-manage/userlist')
 }
 </script>
 

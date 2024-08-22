@@ -76,9 +76,9 @@ import {
 } from 'element-plus'
 import { computed, reactive, ref } from 'vue'
 import { Gender } from '@/enums/index'
-import { userUpload } from '@/api/user'
 import { type UserForm } from '@/types/user'
 import UploadAvatar from '@/components/UploadAvatar/index.vue'
+import { userUpload } from '@/api/user'
 const store = useUserStore()
 const avatarUrl = computed(() => {
   return import.meta.env.VITE_STATICURL + store.userInfo?.avatar || avater

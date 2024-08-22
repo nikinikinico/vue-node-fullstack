@@ -1,7 +1,7 @@
 import './assets/main.css'
 
 import { createApp } from 'vue'
-import pinia from './stores'
+import store from './stores'
 import App from './App.vue'
 import router from './router'
 import ElementPlus from 'element-plus'
@@ -10,7 +10,7 @@ import Particles from '@tsparticles/vue3'
 import { loadFull } from 'tsparticles'
 const app = createApp(App)
 
-app.use(pinia)
+app.use(store)
 app.use(ElementPlus)
 app.use(router)
 app.use(Particles, {

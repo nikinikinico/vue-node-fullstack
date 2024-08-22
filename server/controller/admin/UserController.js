@@ -54,5 +54,54 @@ const UserController = {
       },
     });
   },
+  add: async (req, res) => {
+    //调用service模块更新数据库
+    const { username, introduction, gender, role, password } = req.body;
+    const avatar = req.file ? `/avataruploads/${req.file.filename}` : "";
+    try {
+      await UserService.add({
+        username,
+        introduction,
+        gender: Number(gender),
+        avatar,
+        role: Number(role),
+        password,
+      });
+      res.send({
+        code: 200,
+        message: "ok",
+        data: "",
+      });
+    } catch (error) {
+      res.send({
+        code: error.code,
+        message: error.errorResponse.errmsg,
+      });
+    }
+  },
+  getInfo: async (req, res) => {
+    const token = req.headers?.authorization?.split(" ")[1];
+    const payload = JWT.verify(token);
+    const result = await UserService.getInfo({ _id: payload._id });
+    res.send({ code: 200, data: result });
+  },
+  getList: async (req, res) => {
+    const result = await UserService.getList(req.params);
+    res.send({
+      code: 200,
+      data: result,
+    });
+  },
+  delList: async (req, res) => {
+    await UserService.delList({ _id: req.params.id });
+    res.send({ code: 200, message: "ok" });
+  },
+  putList: async (req, res) => {
+    const result = await UserService.putList(req.body);
+    res.send({
+      code: 200,
+      message: "ok",
+    });
+  },
 };
 module.exports = UserController;

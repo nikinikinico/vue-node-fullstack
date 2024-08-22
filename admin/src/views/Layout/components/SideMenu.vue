@@ -32,7 +32,7 @@
           >产品列表</el-menu-item
         >
       </el-sub-menu>
-      <el-sub-menu index="/user-manage">
+      <el-sub-menu index="/user-manage" v-admin>
         <template #title>
           <el-icon><UserFilled /></el-icon>
           <span>用户管理</span>
@@ -52,11 +52,20 @@ import {
   Reading
 } from '@element-plus/icons-vue'
 import { useRoute } from 'vue-router'
+import { useUserStore } from '@/stores'
 const route = useRoute()
 
 defineProps<{
   collapse: boolean
 }>()
+const store = useUserStore()
+const vAdmin = {
+  mounted(el: HTMLElement) {
+    if (store.$state.userInfo?.role !== 1) {
+      el.parentNode?.removeChild(el)
+    }
+  }
+}
 </script>
 <style scoped lang="scss">
 .el-aside {
