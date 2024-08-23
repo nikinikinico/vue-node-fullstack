@@ -51,7 +51,7 @@ type Data<T> = {
 export const request = <T>(
   url: string,
   method: Method = 'GET',
-  submitData?: object,
+  submitData?: object | Array<any>,
   headers?: RawAxiosRequestHeaders
 ) => {
   return instance.request<any, Data<T>>({

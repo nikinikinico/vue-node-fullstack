@@ -12,7 +12,7 @@
       <el-input v-model="newsForm.title"></el-input>
     </el-form-item>
     <el-form-item label="内容" prop="content">
-      <Edit v-model="newsForm.content" />
+      <Edit v-model="newsForm.content" ref="editRef" />
     </el-form-item>
     <el-form-item label="类别" prop="category">
       <el-select v-model="newsForm.category">
@@ -53,6 +53,7 @@ import Upload from '@/components/UploadAvatar/index.vue'
 import { useRouter } from 'vue-router'
 import { newsAdd } from '@/api/news'
 const newsFormRef = ref<FormInstance>()
+const editRef = ref<any>()
 const newsForm = ref<News>({
   title: '',
   content: '',
@@ -82,6 +83,7 @@ const router = useRouter()
 const submitForm = async () => {
   await newsFormRef.value?.validate()
   await newsAdd(newsForm.value)
+  await editRef.value.deleteImages()
   ElMessage.success('添加成功')
   router.push('/news-manage/newslist')
 

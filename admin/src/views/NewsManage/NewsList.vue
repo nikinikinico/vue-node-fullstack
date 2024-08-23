@@ -24,22 +24,45 @@
         </template>
       </el-table-column>
       <el-table-column label="操作">
-        <template #default>
-          <el-button circle :icon="Star" type="success"></el-button>
+        <template #default="{ row }">
+          <el-button
+            circle
+            :icon="Star"
+            @click="handlePreview(row)"
+            type="success"
+          ></el-button>
           <el-button circle :icon="Edit"></el-button>
-          <el-button circle :icon="Delete" type="danger"></el-button>
+          <el-popconfirm
+            title="你确定要删除吗?"
+            confirm-button-text="确定"
+            cancel-button-text="取消"
+            @confirm="handleDelete(row)"
+          >
+            <template #reference>
+              <el-button circle :icon="Delete" type="danger"></el-button>
+            </template>
+          </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
   </el-card>
+  <el-dialog v-model="dialogVisible" title="预览新闻" width="500">
+    <div>
+      <h2>{{ previewData.title }}</h2>
+      <div>{{ formatTime(previewData.editTime) }}</div>
+      <el-divider></el-divider>
+      <div v-html="previewData.content"></div>
+    </div>
+  </el-dialog>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { newsList, newsPublish } from '@/api/news'
+import { newsList, newsPublish, deleteNews } from '@/api/news'
 import type { News } from '@/types/news'
 import { formatTime } from '@/util/index'
 import { Star, Edit, Delete } from '@element-plus/icons-vue'
+import { ElMessage } from 'element-plus'
 const tableData = ref<Array<News>>([])
 const getTableList = async () => {
   const res = await newsList()
@@ -62,6 +85,17 @@ const handleSwitchChange = async (row: News) => {
   } catch (error) {
     return false
   }
+}
+const previewData = ref({})
+const dialogVisible = ref(false)
+const handlePreview = (row) => {
+  previewData.value = row
+  dialogVisible.value = true
+}
+const handleDelete = async (row) => {
+  await deleteNews(row._id)
+  ElMessage.success('删除成功')
+  getTableList()
 }
 </script>
 

@@ -1,9 +1,23 @@
 var express = require("express");
 const UserController = require("../../controller/admin/UserController");
 const multer = require("multer");
-const upload = multer({ dest: "public/avataruploads/" });
+const path = require("path");
+const crypto = require("crypto");
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "public/avataruploads/"); // 文件存储路径
+  },
+  filename: function (req, file, cb) {
+    crypto.randomBytes(16, (err, raw) => {
+      if (err) return cb(err);
+      const ext = path.extname(file.originalname); // 获取原始文件的后缀
+      const hashName = raw.toString("hex"); // 生成哈希值文件名
+      cb(null, hashName + ext); // 将哈希值和后缀组合作为文件名
+    });
+  },
+});
+const upload = multer({ storage: storage });
 var UserRouter = express.Router();
-
 UserRouter.post("/user/login", UserController.login);
 UserRouter.post("/user/upload", upload.single("file"), UserController.upload);
 UserRouter.post("/user/add", upload.single("file"), UserController.add);
